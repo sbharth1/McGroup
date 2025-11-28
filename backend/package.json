@@ -13,7 +13,7 @@
   "license": "ISC",
   "packageManager": "pnpm@10.15.1",
   "dependencies": {
-    "bcrypt": "^6.0.0",
+    "argon2": "^0.44.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "drizzle-orm": "^0.44.7",

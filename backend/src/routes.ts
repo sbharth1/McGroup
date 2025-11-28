@@ -1,11 +1,10 @@
 import {Router,type Router as RouterType} from 'express'
-import { check } from './modules/index.ts';
 
 
 const router:RouterType = Router();
 
 // GET
-router.get("/book",check);
+router.get("/book",(req,res)=> res.send("book"));
 
 // POST
 export default router;
