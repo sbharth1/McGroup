@@ -1,9 +1,10 @@
 import type { Request, Response } from "express";
 import argon2 from "argon2";
 import { eq } from "drizzle-orm";
-import { loginSchema, registerSchema } from "../validators/user.validator.ts";
+import { loginSchema, registerSchema } from "../zod/user.ts";
 import { db } from "../config/db.config.ts";
 import { users } from "../models/user.model.ts";
+import { createTokens } from "../utils/jwt.ts";
 
 //register
 
@@ -118,10 +119,13 @@ export const login = async (req: Request, res: Response) => {
     const { passwordHash, ...safeUser } = user as any;
 
     //token
+    const { accessToken, refreshToken } = createTokens(user);
 
     return res.status(200).json({
       message: "Login successful",
-      user,
+      user: { id: user.id, email: user.email },
+      accessToken,
+      refreshToken,
     });
   } catch (err) {
     console.error("Login error:", err);

@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import type { Secret, SignOptions } from "jsonwebtoken";
-import type { JwtPayload } from "./type.ts";
+import type { JwtPayload, User } from "./type.ts";
 import { ENV } from "../config/env.ts";
 
 const accessSecret = ENV.JWT_ACCESS_SECRET as Secret;
@@ -28,4 +28,11 @@ export const verifyAccessToken = (token: string): JwtPayload => {
 export const verifyRefreshToken = (token: string): JwtPayload => {
   const decoded = jwt.verify(token, accessSecret);
   return decoded as JwtPayload;
+};
+
+export const createTokens = (user: User) => {
+  const payload: JwtPayload = { id: user.id, email: user.email };
+  const accessToken = generateAcessToken(payload);
+  const refreshToken = generateRefreshToken(payload);
+  return { accessToken, refreshToken };
 };
